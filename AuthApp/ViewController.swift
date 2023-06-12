@@ -40,6 +40,8 @@ class ViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Password"
         textField.setLeftIcon(UIImage(named: "password")!)
+        let padding: CGFloat = 10.0
+        textField.setRightPadding(padding)
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 20
         return textField
@@ -150,7 +152,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setupViews()
         setupConstraints()
     }
@@ -158,19 +159,10 @@ class ViewController: UIViewController {
     // MARK: - Setup
 
     private func setupViews() {
-        view.addSubview(backgroundImageView)
-        view.addSubview(loginLabel)
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(loginButton)
-        view.addSubview(forgotPasswordButton)
-        view.addSubview(orConnectWithLabel)
-        view.addSubview(lineViewOne)
-        view.addSubview(lineViewTwo)
-        view.addSubview(facebookButton)
-        view.addSubview(twitterButton)
-        view.addSubview(noAccountLabel)
-        view.addSubview(signUpButton)
+        let subviews = [backgroundImageView, loginLabel, emailTextField, passwordTextField, loginButton, forgotPasswordButton, orConnectWithLabel, lineViewOne, lineViewTwo, facebookButton, twitterButton, noAccountLabel, signUpButton]
+        subviews.forEach { element in
+            view.addSubview(element)
+        }
     }
 
     private func setupConstraints() {
@@ -257,7 +249,6 @@ class ViewController: UIViewController {
             make.height.equalTo(14)
         }
     }
-
 }
 
 extension UITextField {
@@ -271,15 +262,30 @@ extension UITextField {
     }
 
     func setRightIcon(_ image: UIImage) {
-        let iconView = UIImageView(frame: CGRect(x: 0, y: 8, width: 15, height: 15))
+        let iconView = UIImageView(frame: CGRect(x: 5, y: 8, width: 15, height: 15))
         iconView.image = image
-        let iconContainerView: UIView = UIView(frame: CGRect(x: 50, y: 0, width: 30, height: 30))
+        let iconContainerView: UIView = UIView(frame: CGRect(x: 45, y: 0, width: 30, height: 30))
         iconContainerView.addSubview(iconView)
         rightView = iconContainerView
         rightViewMode = .always
     }
+
+    func setPadding(left: CGFloat, right: CGFloat? = nil) {
+            setLeftPadding(left)
+            if let rightPadding = right {
+                setRightPadding(rightPadding)
+            }
+    }
+
+    func setLeftPadding(_ padding: CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.size.height))
+            self.leftView = paddingView
+            self.leftViewMode = .always
+    }
+
+    func setRightPadding(_ padding: CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: self.frame.size.height))
+            self.rightView = paddingView
+            self.rightViewMode = .always
+    }
 }
-
-
-
-
